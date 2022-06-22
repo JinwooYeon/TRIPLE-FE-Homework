@@ -11,13 +11,15 @@
   "dependencies": {
     "next": "12.1.6",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "styled-components": "^5.3.5"
   },
   "devDependencies": {
     "@titicaca/eslint-config-triple": "^3.1.0",
+    "babel-plugin-styled-components": "^2.0.7",
     "eslint": "8.18.0",
     "eslint-config-next": "12.1.6"
-  },  
+  },
   "lint:es": "eslint '**/*.{js,ts,tsx}'",
   "lint:es:fix": "npm run lint:es -- --fix",
   "lint:etc": "prettier '**/*.{json,yaml,md}' --check",
