@@ -14,7 +14,12 @@
     "react-dom": "18.2.0"
   },
   "devDependencies": {
+    "@titicaca/eslint-config-triple": "^3.1.0",
     "eslint": "8.18.0",
     "eslint-config-next": "12.1.6"
-  }
+  },  
+  "lint:es": "eslint '**/*.{js,ts,tsx}'",
+  "lint:es:fix": "npm run lint:es -- --fix",
+  "lint:etc": "prettier '**/*.{json,yaml,md}' --check",
+  "lint:etc:fix": "prettier '**/*.{json,yaml,md}' --write"
 }
