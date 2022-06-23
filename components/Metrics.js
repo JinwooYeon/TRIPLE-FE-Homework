@@ -29,33 +29,47 @@ export default function Metrics() {
       // 10ms 마다 함수 호출
       ms.current += 10;
 
-      // 1000ms 기준으로 지수함수 활용
-      let cal = Math.sqrt(ms.current) / Math.sqrt(1000);
+      // 1000ms에 (endNum - 5) 도달
+      let cal = ms.current / 1000;
       let calNum = {
-        user: Math.floor((endNum.user - 3) * cal),
-        review: Math.floor((endNum.review - 3) * cal),
-        save: Math.floor((endNum.save - 3) * cal),
+        user: Math.floor((endNum.user - 5) * cal),
+        review: Math.floor((endNum.review - 5) * cal),
+        save: Math.floor((endNum.save - 5) * cal),
       };
 
       // 증가 속도 느려지는 효과
       if (ms.current > 1000) {
         calNum = {
-          user: endNum.user - 2,
-          review: endNum.review - 2,
-          save: endNum.save - 2,
+          user: endNum.user - 4,
+          review: endNum.review - 4,
+          save: endNum.save - 4,
         };
-        if (ms.current > 1450) {
+        if (ms.current > 1100) {
           calNum = {
-            user: endNum.user - 1,
-            review: endNum.review - 1,
-            save: endNum.save - 1,
+            user: endNum.user - 3,
+            review: endNum.review - 3,
+            save: endNum.save - 3,
           };
-          if (ms.current >= 2000) {
+          if (ms.current > 1200) {
             calNum = {
-              user: endNum.user,
-              review: endNum.review,
-              save: endNum.save,
+              user: endNum.user - 2,
+              review: endNum.review - 2,
+              save: endNum.save - 2,
             };
+            if (ms.current > 1500) {
+              calNum = {
+                user: endNum.user - 1,
+                review: endNum.review - 1,
+                save: endNum.save - 1,
+              };
+              if (ms.current >= 2000) {
+                calNum = {
+                  user: endNum.user,
+                  review: endNum.review,
+                  save: endNum.save,
+                };
+              }
+            }
           }
         }
       }
