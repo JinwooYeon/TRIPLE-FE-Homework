@@ -1,57 +1,71 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 export default function Metrics() {
   // useState
+  // 시작하는 숫자
   const [num, setNum] = useState({
     user: 0,
     review: 0,
     save: 0,
   });
 
+  // useRef
+  // 애니메이션 속도 참조 숫자
+  const ms = useRef(0);
+
   // 상수
+  // 도달해야할 숫자
   const endNum = {
     user: 350,
     review: 21,
     save: 650,
   };
 
-  // 함수 - 숫자가 올라가는 애니메이션
-  function animate() {
-    let startTime = null;
-    let tmp = 0;
-
-    // 반복할 애니메이션 프레임
-    const step = (currentTime) => {
-      tmp += 1;
-      if (!startTime) {
-        startTime = currentTime;
-      }
-
-      // 증가 속도 느려지는 효과
-      let cal = Math.sqrt(122) / Math.sqrt(tmp);
-      const progress = Math.min(((currentTime - startTime) / 2000) * cal, 1);
-
-      // state 값 변경
-      setNum({
-        user: Math.floor(progress * endNum.user),
-        review: Math.floor(progress * endNum.review),
-        save: Math.floor(progress * endNum.save),
-      });
-
-      if (progress < 1) {
-        window.requestAnimationFrame(step);
-      } else {
-        window.cancelAnimationFrame(window.requestAnimationFrame(step));
-      }
-    };
-
-    window.requestAnimationFrame(step);
-  }
-
   // useEffect
   useEffect(() => {
-    animate();
+    // 숫자가 올라가는 애니메이션
+    const counter = setInterval(() => {
+      // 10ms 마다 함수 호출
+      ms.current += 10;
+
+      // 1000ms 기준으로 지수함수 활용
+      let cal = Math.sqrt(ms.current) / Math.sqrt(1000);
+      let calNum = {
+        user: Math.floor((endNum.user - 3) * cal),
+        review: Math.floor((endNum.review - 3) * cal),
+        save: Math.floor((endNum.save - 3) * cal),
+      };
+
+      // 증가 속도 느려지는 효과
+      if (ms.current > 1000) {
+        calNum = {
+          user: endNum.user - 2,
+          review: endNum.review - 2,
+          save: endNum.save - 2,
+        };
+        if (ms.current > 1450) {
+          calNum = {
+            user: endNum.user - 1,
+            review: endNum.review - 1,
+            save: endNum.save - 1,
+          };
+          if (ms.current >= 2000) {
+            calNum = {
+              user: endNum.user,
+              review: endNum.review,
+              save: endNum.save,
+            };
+          }
+        }
+      }
+
+      // state 값 변경
+      setNum(calNum);
+
+      // 2000ms 후 종료
+      if (ms.current === 2000) clearInterval(counter);
+    }, 10);
   }, []);
 
   return (
